@@ -1,7 +1,7 @@
 .myBtn {
-  width: 14px;
   padding: 5px 15px;
   border: 1px solid teal;
   background: transparent;
   cursor: pointer;
+  font-size: 14px;
 }

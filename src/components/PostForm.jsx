@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import MyInput from './UI/input/MyInput';
+import MyButton from './UI/button/MyButton';
 
 const PostForm = ({ create }) => {
   const [post, setPost] = useState({ title: '', body: '' });
@@ -21,7 +22,7 @@ const PostForm = ({ create }) => {
   };
 
   return (
-    <form class="form">
+    <form className="form">
       <div>
         <MyInput
           value={post.title}
@@ -37,7 +38,7 @@ const PostForm = ({ create }) => {
         />
       </div>
 
-      <button onClick={addNewPost}>Добавить пост</button>
+      <MyButton onClick={addNewPost}>Добавить пост</MyButton>
     </form>
   );
 };
