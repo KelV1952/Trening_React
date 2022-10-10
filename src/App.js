@@ -3,11 +3,12 @@ import './styles/App.css';
 import './components/PostItem';
 // import PostItem from './components/PostItem';
 import PostList from './components/PostList';
-// import MyButton from './components/UI/button/MyButton.module.css';
+import MyButton from './components/UI/button/MyButton';
 // import MyInput from './components/UI/input/MyInput.module.css';
 import PostForm from './components/PostForm';
 // import MySelect from './components/UI/select/MySelect';
 import PostFilter from './components/PostFilter';
+import MyModal from './components/UI/MyModal/MyModal';
 
 function App() {
   const [posts, setPosts] = useState([
@@ -16,8 +17,7 @@ function App() {
     { id: 3, title: 'fJavascript3', body: 'aDiscription' },
   ]);
 
-  // const [selectedSort, setSelectedSort] = useState('');
-  // const [searchQuery, setSearchQuery] = useState('');
+  const [modal, setModal] = useState(false);
   const [filter, setFilter] = useState({
     query: '',
     sort: '',
@@ -45,12 +45,20 @@ function App() {
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
+    setModal(false);
   };
 
   return (
     <div className="App">
-      <PostForm create={createPost} />
+      <MyButton style={{ marginTop: 30 }} onClick={() => setModal(true)}>
+        Создать новый пост
+      </MyButton>
+      <MyModal visible={modal} setVisible={setModal}>
+        <PostForm create={createPost} />
+      </MyModal>
+
       <hr style={{ margin: '15px 0' }} />
+
       <PostFilter filter={filter} setFilter={setFilter} />
 
       {sortedAndSearchedPosts.length !== 0 ? (
