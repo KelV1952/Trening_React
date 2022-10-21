@@ -1,12 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import './styles/App.css';
 import './components/PostItem';
-// import PostItem from './components/PostItem';
 import PostList from './components/PostList';
 import MyButton from './components/UI/button/MyButton';
 // import MyInput from './components/UI/input/MyInput.module.css';
 import PostForm from './components/PostForm';
-// import MySelect from './components/UI/select/MySelect';
 import PostFilter from './components/PostFilter';
 import MyModal from './components/UI/MyModal/MyModal';
 import { usePosts } from './hooks/usePosts';
