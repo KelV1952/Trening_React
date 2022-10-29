@@ -9,6 +9,8 @@ import PostFilter from './components/PostFilter';
 import MyModal from './components/UI/MyModal/MyModal';
 import { usePosts } from './hooks/usePosts';
 import PostService from './API/PostService';
+import Loader from './components/UI/Loader/Loder';
+import { useFetching } from './hooks/useFetching';
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -17,7 +19,10 @@ function App() {
     query: '',
     sort: '',
   });
-
+  const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
+    const posts = await PostService.getAll();
+    setPosts(posts);
+  });
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
   const removePost = (post) => {
     setPosts(posts.filter((p) => p.id !== post.id));
@@ -30,11 +35,6 @@ function App() {
     setPosts([...posts, newPost]);
     setModal(false);
   };
-
-  async function fetchPosts() {
-    const posts = await PostService.getAll();
-    setPosts(posts);
-  }
 
   return (
     <div className="App">
@@ -49,18 +49,24 @@ function App() {
       <hr style={{ margin: '15px 0' }} />
 
       <PostFilter filter={filter} setFilter={setFilter} />
-
-      {sortedAndSearchedPosts.length !== 0 ? (
+      {postError && <h2>Произошла ошибка: {postError} </h2>}
+      {isPostsLoading ? (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Loader />
+        </div>
+      ) : (
         <PostList
           posts={sortedAndSearchedPosts}
           title="Список постов"
           remove={removePost}
         />
-      ) : (
-        <div>
-          <h1 style={{ textAlign: 'center' }}>Посты не найдены</h1>
-        </div>
       )}
+
+      {/* <PostList
+        posts={sortedAndSearchedPosts}
+        title="Список постов"
+        remove={removePost}
+      /> */}
     </div>
   );
 }
