@@ -39,14 +39,14 @@ function App() {
     setPosts(posts.filter((p) => p.id !== post.id));
   };
 
-  const changePage = (page) => {
+  const changePage = (page) => () => {
     setPage(page);
-    //fetchPosts();
   };
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [page]);
+
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
     setModal(false);
@@ -80,7 +80,7 @@ function App() {
       <div className="page__wrapper">
         {pagesArray.map((p) => (
           <span
-            // onClick={changePage(p)}
+            onClick={changePage(p)}
             key={p}
             className={page === p ? 'page page__current' : 'page'}
           >
@@ -91,4 +91,5 @@ function App() {
     </div>
   );
 }
+
 export default App;
