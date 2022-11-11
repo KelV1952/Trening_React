@@ -1,87 +1,92 @@
-import React, { useEffect, useState } from 'react';
+import React, { Switch } from 'react';
 import './styles/App.css';
-import './components/PostItem';
-import PostList from './components/PostList';
-import MyButton from './components/UI/button/MyButton';
-// import MyInput from './components/UI/input/MyInput.module.css';
-import PostForm from './components/PostForm';
-import PostFilter from './components/PostFilter';
-import MyModal from './components/UI/MyModal/MyModal';
-import { usePosts } from './hooks/usePosts';
-import PostService from './API/PostService';
-import Loader from './components/UI/Loader/Loder';
-import { useFetching } from './hooks/useFetching';
-import { getPageCount } from './components/utils/pages';
-// import { getPagesArray } from './components/utils/pages';
-import Pagination from './components/UI/pagination/Pagination';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import About from './pages/About';
+import Posts from './pages/Posts';
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  const [modal, setModal] = useState(false);
-  const [filter, setFilter] = useState({
-    query: '',
-    sort: '',
-  });
-
-  const [totalPages, setTotalPages] = useState(0);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
-
-  const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
-    const response = await PostService.getAll(limit, page);
-    setPosts(response.data);
-    const totalCount = response.headers['x-total-count'];
-    setTotalPages(getPageCount(totalCount, limit));
-  });
-
-  const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
-  const removePost = (post) => {
-    setPosts(posts.filter((p) => p.id !== post.id));
-  };
-
-  const changePage = (page) => () => {
-    setPage(page);
-    fetchPosts(limit, page);
-  };
-
-  useEffect(() => {
-    fetchPosts(limit, page);
-  }, [page]);
-
-  const createPost = (newPost) => {
-    setPosts([...posts, newPost]);
-    setModal(false);
-  };
-
   return (
-    <div className="App">
-      <button onClick={fetchPosts}>GET POSTS</button>
-      <MyButton style={{ marginTop: 30 }} onClick={() => setModal(true)}>
-        Создать новый пост
-      </MyButton>
-      <MyModal visible={modal} setVisible={setModal}>
-        <PostForm create={createPost} />
-      </MyModal>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/posts">Posts</Link>
+            </li>
+          </ul>
+        </nav>
 
-      <hr style={{ margin: '15px 0' }} />
-
-      <PostFilter filter={filter} setFilter={setFilter} />
-      {postError && <h2>Произошла ошибка: {postError} </h2>}
-      {isPostsLoading ? (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Loader />
-        </div>
-      ) : (
-        <PostList
-          posts={sortedAndSearchedPosts}
-          title="Список постов"
-          remove={removePost}
-        />
-      )}
-
-      <Pagination page={page} changePage={changePage} totalPages={totalPages} />
-    </div>
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/posts">
+            <Posts />
+          </Route>
+          {/* <Route path="/">
+            <Home />
+          </Route> */}
+        </Switch>
+      </div>
+    </Router>
   );
 }
-
 export default App;
+
+// function Posts() {
+//   return <h2>Posts</h2>;
+// }
+
+// function About() {
+//   return <h2>About</h2>;
+// }
+
+// export default function App() {
+//   return (
+//     <Router>
+//       <div>
+//         <nav>
+//           <ul>
+//             <li>
+//               <Link to="/">Posts</Link>
+//             </li>
+//             <li>
+//               <Link to="/about">About</Link>
+//             </li>
+//           </ul>
+//         </nav>
+
+//         <Switch>
+//           <Route path="about">
+//             <About />
+//           </Route>
+//           <Route path="posts">
+//             <Posts />
+//           </Route>
+//         </Switch>
+//       </div>
+//     </Router>
+//   );
+// }
+
+// function About() {
+//   return (
+//     <div>
+//       <h2>About</h2>
+//     </div>
+//   );
+// }
+
+// function NoMatch() {
+//   return (
+//     <div>
+//       <h2>Nothing to see here!</h2>
+//       <p>
+//         <Link to="/">Go to the home page</Link>
+//       </p>
+//     </div>
+//   );
+// }
