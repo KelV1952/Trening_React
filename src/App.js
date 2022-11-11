@@ -1,8 +1,8 @@
-import React from "react";
-import "./styles/App.css";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import About from "./pages/About";
-import Posts from "./pages/Posts";
+import React from 'react';
+import './styles/App.css';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import About from './pages/About';
+import Posts from './pages/Posts';
 
 function App() {
   return (
