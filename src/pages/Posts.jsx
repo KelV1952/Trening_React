@@ -41,12 +41,12 @@ function Posts() {
 
   const changePage = (page) => () => {
     setPage(page);
-    fetchPosts(limit, page);
   };
 
   useEffect(() => {
     fetchPosts(limit, page);
-  }, [page, limit, fetchPosts]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, limit]);
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
