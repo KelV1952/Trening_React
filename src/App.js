@@ -1,8 +1,8 @@
-import React, { Switch } from 'react';
-import './styles/App.css';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import About from './pages/About';
-import Posts from './pages/Posts';
+import React from "react";
+import "./styles/App.css";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import About from "./pages/About";
+import Posts from "./pages/Posts";
 
 function App() {
   return (
@@ -35,14 +35,6 @@ function App() {
   );
 }
 export default App;
-
-// function Posts() {
-//   return <h2>Posts</h2>;
-// }
-
-// function About() {
-//   return <h2>About</h2>;
-// }
 
 // export default function App() {
 //   return (
