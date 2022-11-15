@@ -5,7 +5,8 @@
 }
 
 #root {
-  display: flex;
+  display: block;
+  flex-direction: colomns;
   justify-content: center;
 }
 
@@ -55,4 +56,15 @@ post-enter-active {
 .page__current {
   border: 2px solid red;
   font-weight: bold;
+}
+.navbar {
+  width: 100vw;
+  height: 50px;
+  display: flex;
+  padding: 0 15px;
+  align-items: center;
+  background: lightgray;
+}
+.navbar__links {
+  margin-left: auto;
 }

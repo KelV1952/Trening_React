@@ -46,7 +46,7 @@ function Posts() {
 
   useEffect(() => {
     fetchPosts(limit, page);
-  }, [page, limit, fetchPosts]);
+  }, [page ]);
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
