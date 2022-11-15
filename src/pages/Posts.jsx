@@ -41,12 +41,11 @@ function Posts() {
 
   const changePage = (page) => () => {
     setPage(page);
-    fetchPosts(limit, page);
   };
 
   useEffect(() => {
     fetchPosts(limit, page);
-  }, [page ]);
+  }, [page, limit]);
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
