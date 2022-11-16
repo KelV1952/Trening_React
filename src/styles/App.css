@@ -68,3 +68,6 @@ post-enter-active {
 .navbar__links {
   margin-left: auto;
 }
+.post__btns {
+  display: flex;
+}

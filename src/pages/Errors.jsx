@@ -1,7 +1,7 @@
 const Error = () => {
   return (
-    <div>
-      <h3 style={{ color: 'red' }}>Вы попали на пустую страницу</h3>
+    <div style={{ color: 'red' }}>
+      <h3 style={{ textAlign: 'center' }}>Вы попали на пустую страницу</h3>
     </div>
   );
 };
