@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './styles/App.css';
 import {
   BrowserRouter as Router,
@@ -12,13 +12,23 @@ import Posts from './pages/Posts';
 import Navbar from './components/UI/Navbar/Navbar';
 import Error from './pages/Errors';
 import AppRouter from './components/UI/AppRouter/AppRouter';
+import { AuthContext } from './context';
 
 function App() {
+  const [isAuth, setIsAuth] = useState(false);
+
   return (
-    <Router>
-      <Navbar />
-      <AppRouter />
-    </Router>
+    <AuthContext.Provider
+      value={{
+        isAuth,
+        setIsAuth,
+      }}
+    >
+      <Router>
+        <Navbar />
+        <AppRouter />
+      </Router>
+    </AuthContext.Provider>
   );
 }
 export default App;
