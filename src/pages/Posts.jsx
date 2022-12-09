@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../styles/App.css';
 import '../components/PostItem';
 import PostList from '../components/PostList';
@@ -14,6 +14,7 @@ import { useFetching } from '../hooks/useFetching';
 import { getPageCount } from '../components/utils/pages';
 // import { getPagesArray } from './components/utils/pages';
 import Pagination from '../components/UI/pagination/Pagination';
+import { useObserver } from '../hooks/useObserver';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -29,10 +30,14 @@ function Posts() {
 
   const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
     const response = await PostService.getAll(limit, page);
-    setPosts(response.data);
+    setPosts([...posts, ...response.data]);
     const totalCount = response.headers['x-total-count'];
     setTotalPages(getPageCount(totalCount, limit));
   });
+
+  const lastElement = useRef();
+  const observer = useRef();
+  console.log(lastElement);
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
   const removePost = (post) => {
@@ -43,6 +48,9 @@ function Posts() {
     setPage(page);
   };
 
+  useObserver(lastElement, page < totalPages, isPostsLoading, () => {
+    setPage(page + 1);
+  });
   useEffect(() => {
     fetchPosts(limit, page);
   }, [page, limit]);
@@ -65,16 +73,20 @@ function Posts() {
 
       <PostFilter filter={filter} setFilter={setFilter} />
       {postError && <h2>Произошла ошибка: {postError} </h2>}
-      {isPostsLoading ? (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+
+      <PostList
+        posts={sortedAndSearchedPosts}
+        title="Список постов"
+        remove={removePost}
+      />
+      <div ref={lastElement} style={{ height: 20, background: 'red' }} />
+
+      {isPostsLoading && (
+        <div
+          style={{ display: 'flex', justifyContent: 'center', marginTop: 50 }}
+        >
           <Loader />
         </div>
-      ) : (
-        <PostList
-          posts={sortedAndSearchedPosts}
-          title="Список постов"
-          remove={removePost}
-        />
       )}
 
       <Pagination page={page} changePage={changePage} totalPages={totalPages} />
